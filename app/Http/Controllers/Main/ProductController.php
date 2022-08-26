@@ -1,0 +1,167 @@
+<?php
+
+namespace App\Http\Controllers\Main;
+
+use App\Http\Controllers\Controller;
+use App\Http\Requests\ProductRequest;
+use App\Models\Category;
+use App\Models\Product;
+use Illuminate\Http\Request;
+use Image;
+
+class ProductController extends Controller
+{
+    public function index()
+    {
+        return view('product.index');
+    }
+
+    public function render() 
+    {
+        $product = Product::all();
+        $view = [
+            'data' => view('product.render')->with([
+                'product' => $product
+            ])->render()
+        ];
+
+        return response()->json($view);
+    }
+
+    public function create() 
+    {
+        $category = Category::pluck('name', 'id')->prepend('Pilih kategori...', '')->toArray();
+        $view = [
+            'data' => view('product.create', compact('category'))->render()
+        ];
+
+        return response()->json($view);
+    }
+
+    public function store(ProductRequest $request)
+    {
+        try {
+            $data = [
+                'name' => $request->name,
+                'category_id' => $request->category,
+                'price' => preg_replace('/[^0-9]/', '', $request->price),
+            ];
+
+            if($request->hasFile('image')) {
+                //get filename with extension
+                $filenamewithextension = $request->file('image')->getClientOriginalName();
+
+                //get file extension
+                $extension = $request->file('image')->getClientOriginalExtension();
+
+                //filename to store
+                $filenametostore = $request->name . '-' . time() . '.' . $extension;
+                $save_path = 'assets/uploads/media/product';
+
+                if (!file_exists($save_path)) {
+                    mkdir($save_path, 666, true);
+                }
+                $img = Image::make($request->file('image')->getRealPath());
+                $img->resize(512, 512);
+                $img->save($save_path . '/' . $filenametostore);
+
+                $data['image'] = $save_path . '/' . $filenametostore;
+            }
+            Product::create($data);
+
+            return response()->json([
+                'status' => 'success',
+                'message' => 'Data berhasil tersimpan',
+                'title' => 'Berhasil'
+            ]);
+
+        } catch (\Exception $e) {
+            return response()->json([
+                'status' => 'error',
+                // 'message' => 'Data gagal tersimpan',
+                'message' => $e->getMessage(),
+                'title' => 'Gagal'
+            ]);
+        }
+    }
+
+    public function edit($id) 
+    {
+        $product = Product::find($id);
+        $category = Category::pluck('name', 'id')->prepend('Pilih kategori...', '')->toArray();
+        $view = [
+            'data' => view('product.edit', compact('category', 'product'))->render()
+        ];
+
+        return response()->json($view);
+    }
+
+    public function update(ProductRequest $request)
+    {
+        try {
+            $product = Product::find($request->id);
+            $data = [
+                'name' => $request->name,
+                'category_id' => $request->category,
+                'price' => preg_replace('/[^0-9]/', '', $request->price),
+            ];
+
+            if($request->hasFile('image')) {
+                //get filename with extension
+                $filenamewithextension = $request->file('image')->getClientOriginalName();
+
+                //get file extension
+                $extension = $request->file('image')->getClientOriginalExtension();
+
+                //filename to store
+                $filenametostore = $request->name . '-' . time() . '.' . $extension;
+                $save_path = 'assets/uploads/media/product';
+
+                if (!file_exists($save_path)) {
+                    mkdir($save_path, 666, true);
+                }
+                $img = Image::make($request->file('image')->getRealPath());
+                $img->resize(512, 512);
+                $img->save($save_path . '/' . $filenametostore);
+
+                $data['image'] = $save_path . '/' . $filenametostore;
+            }
+            
+            $product->update($data);
+
+            return response()->json([
+                'status' => 'success',
+                'message' => 'Data berhasil tersimpan',
+                'title' => 'Berhasil'
+            ]);
+
+        } catch (\Exception $e) {
+            return response()->json([
+                'status' => 'error',
+                // 'message' => 'Data gagal tersimpan',
+                'message' => $e->getMessage(),
+                'title' => 'Gagal'
+            ]);
+        }
+    }
+
+    public function delete($id)
+    {
+        try {
+            $product = Product::find($id);
+            unlink($product->image);
+            $product->delete();
+            return response()->json([
+                'status' => 'success',
+                'message' => 'Data berhasil dihapus',
+                'title' => 'Berhasil'
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'status' => 'error',
+                'message' => $e->getMessage(),
+                'title' => 'Gagal'
+            ]);
+        }
+    }
+}

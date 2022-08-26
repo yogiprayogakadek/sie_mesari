@@ -73,9 +73,9 @@
                                 <div class="form-group mb-3">
                                     <div class="input-group input-group-merge input-group-alternative">
                                         <div class="input-group-prepend"><span class="input-group-text"><i
-                                                    class="ni ni-email-83"></i></span></div><input class="form-control @error('email') is-invalid @enderror"
-                                            placeholder="Email" type="email" name="email" value="{{ old('email') }}">
-                                            @error('email')
+                                                    class="ni ni-email-83"></i></span></div><input class="form-control @error('username') is-invalid @enderror"
+                                            placeholder="username" type="username" name="username" value="{{ old('username') }}">
+                                            @error('username')
                                             <span class="invalid-feedback" role="alert">
                                                 <strong>{{ $message }}</strong>
                                             </span>
@@ -131,8 +131,8 @@
         name="_hjRemoteVarsFrame" title="_hjRemoteVarsFrame" id="_hjRemoteVarsFrame"
         src="https://vars.hotjar.com/box-0004cb77850b00d4aa7e1e08ff61e8f0.html"
         style="display: none !important; width: 1px !important; height: 1px !important; opacity: 0 !important; pointer-events: none !important;"></iframe>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
         <script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
         $(document).ready(function () {
             @if (session('status') == 'success')
                 toastr.options =

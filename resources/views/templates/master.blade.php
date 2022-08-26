@@ -1,62 +1,47 @@
-<!DOCTYPE html>
-<html lang="en">
-    @include('templates.partials.head')
+<html lang="en" dir="ltr"
+    style="--primary01:rgba(108, 95, 252, 0.1); --primary02:rgba(108, 95, 252, 0.2); --primary03:rgba(108, 95, 252, 0.3); --primary06:rgba(108, 95, 252, 0.6); --primary09:rgba(108, 95, 252, 0.9); --primary005:rgba(108, 95, 252, 0.05);">
 
-    <body class="loading" data-layout-color="light" data-layout="detached" data-rightbar-onstart="true">
+@include('templates.partials.head')
 
-        <!-- Topbar Start -->
-        @include('templates.partials.navbar')
-        <!-- end Topbar -->
-        
-        <!-- Start Content-->
-        <div class="container-fluid">
-
-            <!-- Begin page -->
-            <div class="wrapper">
-
-                <!-- ========== Left Sidebar Start ========== -->
+<body class="app sidebar-mini ltr {{Request::is('voting') ? 'sidenav-toggled'  : '' }}">
+    <div class="horizontalMenucontainer">
+        <!-- GLOBAL-LOADER -->
+        <div id="global-loader" style="display: none;"> <img src="https://spruko.com/demo/sash/sash/assets/images/loader.svg" class="loader-img"
+                alt="Loader"> </div> <!-- /GLOBAL-LOADER -->
+        <!-- PAGE -->
+        <div class="page">
+            <div class="page-main">
+                <!-- app-Header -->
+                @include('templates.partials.header')
+                <!--APP-SIDEBAR-->
                 @include('templates.partials.sidebar')
-                <!-- Left Sidebar End -->
-
-                <div class="content-page">
-                    <div class="content">
-                        
-                        <!-- start page title -->
-                        <div class="row">
-                            <div class="col-12">
-                                <div class="page-title-box">
-                                    <div class="page-title-right">
-                                        <ol class="breadcrumb m-0">
-                                            <li class="breadcrumb-item"><a href="javascript: void(0);">@yield('pwd')</a></li>
-                                            <li class="breadcrumb-item active">@yield('sub-pwd')</li>
-                                        </ol>
-                                    </div>
-                                    <h4 class="page-title">@yield('page-title')</h4>
+                {{-- <div class="jumps-prevent" style="padding-top: 74px;"></div> --}}
+                <!--app-content open-->
+                <div class="main-content app-content mt-0">
+                    <div class="side-app">
+                        <!-- CONTAINER -->
+                        <div class="main-container container-fluid">
+                            <!-- PAGE-HEADER -->
+                            <div class="page-header">
+                                <h1 class="page-title">@yield('title')</h1>
+                                <div>
+                                    <ol class="breadcrumb">
+                                        <li class="breadcrumb-item"><a href="javascript:void(0)">@yield('pwd')</a></li>
+                                        <li class="breadcrumb-item active" aria-current="page">@yield('sub-pwd')</li>
+                                    </ol>
                                 </div>
-                            </div>
-                        </div>
-                        <!-- end page title --> 
-                        
-                        @yield('content')
+                            </div> <!-- PAGE-HEADER END -->
+                            <!-- ROW-1 OPEN -->
+                            @yield('content')
+                        </div> <!-- CONTAINER CLOSED -->
+                    </div>
+                </div>
+                <!--app-content closed-->
+            </div> <!-- Sidebar-right -->
+            @include('templates.partials.footer')
+        </div> <!-- BACK-TO-TOP --> <a href="#top" id="back-to-top"><i class="fa fa-angle-up"></i></a>
+        @include('templates.partials.script')
+    </div>
+</body>
 
-                    </div> <!-- End Content -->
-
-                    <!-- Footer Start -->
-                    @include('templates.partials.footer')
-                    <!-- end Footer -->
-
-                </div> <!-- content-page -->
-
-            </div> <!-- end wrapper-->
-        </div>
-        <!-- END Container -->
-
-
-        <!-- bundle -->
-        <script src="assets/js/vendor.min.js"></script>
-        <script src="assets/js/app.min.js"></script>
-        
-    </body>
-
-<!-- Mirrored from coderthemes.com/hyper/modern/pages-starter.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 21 Aug 2022 09:17:24 GMT -->
 </html>
