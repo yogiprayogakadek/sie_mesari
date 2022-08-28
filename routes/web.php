@@ -54,6 +54,13 @@ Route::middleware('auth')->namespace('Main')->group(function() {
         Route::get('/', 'SaleController@index')->name('index');
         Route::get('/search-product/{slug}', 'SaleController@search')->name('search');
     });
+    
+    Route::prefix('/cart')->name('cart.')->group(function() {
+        Route::post('/add', 'CartController@add')->name('add');
+        Route::post('/update', 'CartController@update')->name('update');
+        Route::get('/remove/{id}', 'CartController@remove')->name('remove');
+        Route::get('/check-cart', 'CartController@check')->name('check');
+    });
 });
 
 Auth::routes();
