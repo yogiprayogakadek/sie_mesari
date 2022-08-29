@@ -1,6 +1,6 @@
 <div class="card d-block">
     <div class="card-header">
-        <div class="card-title">Data Produk</div>
+        <div class="card-title">Data Staff</div>
         @can('admin')
         <div class="card-options">
             <button class="btn btn-primary btn-add" style="margin-left: 2px">
@@ -13,32 +13,34 @@
         <table class="table table-stripped" id="tableData">
             <thead>
                 <th>No</th>
-                <th>Nama Produk</th>
-                <th>Harga Produk</th>
+                <th>Nama</th>
+                <th>Jenis Kelamin</th>
+                <th>No. Telp</th>
+                <th>Alamat</th>
+                <th>Username</th>
                 <th>Foto</th>
-                <th>Stok</th>
-                <th>Produk Reject</th>
                 @can('admin')
                 <th>Aksi</th>
                 @endcan
             </thead>
             <tbody>
-                @foreach ($product as $product)
+                @foreach ($staff as $staff)
                     <tr>
                         <td>{{$loop->iteration}}</td>
-                        <td>{{$product->name}}</td>
-                        <td>{{convertToRupiah($product->price)}}</td>
+                        <td>{{$staff->name}}</td>
+                        <td>{{$staff->gender == 1 ? 'Laki - Laki' : 'Perempuan'}}</td>
+                        <td>{{$staff->phone}}</td>
+                        <td>{{$staff->address}}</td>
+                        <td>{{$staff->user->username}}</td>
                         <td>
-                            <img src="{{asset($product->image)}}" width="70px">
+                            <img src="{{asset($staff->user->image)}}" width="70px">
                         </td>
-                        <td>{{$product->attribute != null ? $product->attribute->stock : 0}}</td>
-                        <td>{{$product->attribute != null ? $product->attribute->product_rejected : 0}}</td>
                         @can('admin')
                         <td>
-                            <button class="btn btn-info btn-edit" data-id="{{$product->id}}">
+                            <button class="btn btn-info btn-edit" data-id="{{$staff->id}}">
                                 <i class="fa fa-pencil"></i>
                             </button>
-                            <button class="btn btn-danger btn-delete" data-id="{{$product->id}}">
+                            <button class="btn btn-danger btn-delete" data-id="{{$staff->id}}">
                                 <i class="fa fa-trash"></i>
                             </button>
                         </td>

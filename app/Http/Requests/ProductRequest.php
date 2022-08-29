@@ -34,11 +34,15 @@ class ProductRequest extends FormRequest
             $rules += [
                 'image' => 'required',
                 'image.*' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+                'stock' => 'nullable',
+                'rejected' => 'nullable'
             ];
         } else {
             $rules += [
                 'image' => 'nullable',
                 'image.*' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+                'stock' => 'required',
+                'rejected' => 'required'
             ];
         }
 
@@ -62,6 +66,8 @@ class ProductRequest extends FormRequest
             'name' => 'Nama produk',
             'price' => 'Harga',
             'image' => 'Foto',
+            'stock' => 'Stok',
+            'rejected' => 'Produk rejected'
         ];
     }
 }

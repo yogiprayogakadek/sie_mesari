@@ -1,5 +1,7 @@
 function cart(data, table)
 {
+    data != null ? $('.block-hide').prop('hidden', false) : $('.block-hide').prop('hidden', true);
+    console.log(data)
     $(table+' tbody').empty()
     $.each(data, function (index, value) { 
         var tr_list = '<tr>' +
@@ -57,6 +59,8 @@ function priceCut()
 }
 
 $(document).ready(function () {
+    $('#tableCart td').length > 1 ? $('.block-hide').prop('hidden', false) : $('.block-hide').prop('hidden', true);
+
     discount();
 
     // set total price
@@ -84,7 +88,7 @@ $(document).ready(function () {
                                     '<td>' + '<img src="' + assets(value.image) + '" width=100px/>' + '</td>' +
                                     '<td>' + value.name + '</td>' +
                                     '<td>' + convertToRupiah(value.price) + '</td>' +
-                                    '<td>' + value.price + '</td>' +
+                                    '<td>' + (value.attribute != null ? value.attribute.stock : 0) + '</td>' +
                                     '<td>' + '<button type="button" class="btn btn-primary btn-add" data-id="'+ value.id +'"><i class="fa fa-plus"></i></button>' + '</td>' +
                                 '</tr>';
                     
@@ -168,7 +172,7 @@ $(document).ready(function () {
                                                 '</td>' +
                                                 '</tr>';
                                 $('#tableCart tbody').append(tr_list);
-
+                                $('.block-hide').prop('hidden', true)
                                 return false;
                             }
                             cart(result.cart, '#tableCart')
@@ -292,6 +296,46 @@ $(document).ready(function () {
         $('.total-discount').text('0%');
         totalPrice();
         priceCut();
+    });
+
+    $('body').on('click', '.btn-checkout', function() {
+        Swal.fire({
+            title: 'Proses?',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Pesan',
+            cancelButtonText: 'Batal',
+        }).then((result) => {
+            if (result.value) {
+                var formData = new FormData();
+                formData.append('_token', $('meta[name="csrf-token"]').attr('content'));
+                formData.append('total', $('body .total-price').text().replace(/[^0-9]/g,''));
+                formData.append('discount', $('body .total-discount').text().replace(/[^0-9]/g,''));
+                formData.append('member_id', $('body #member_id').val());
+                $.ajax({
+                    url: '/cart/checkout',
+                    type: 'POST',
+                    data: formData,
+                    processData: false,
+                    contentType: false,
+                    success: function (result) {
+                        Swal.fire(
+                            result.title,
+                            result.message,
+                            result.status
+                        )
+                        if (result.status == 'success') {
+                            location.reload();
+                        }
+                    },
+                    error: function() {
+                        Swal.fire({ icon: 'error', title: 'Maaf...', text: 'Terjadi kesalahan!' })
+                    }
+                });
+            }
+        })
     });
 
 });

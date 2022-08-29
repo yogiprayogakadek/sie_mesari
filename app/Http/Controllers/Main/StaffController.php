@@ -3,26 +3,27 @@
 namespace App\Http\Controllers\Main;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\ProductRequest;
-use App\Models\Category;
-use App\Models\Product;
-use App\Models\ProductAttributes;
-use Illuminate\Http\Request;
+use App\Http\Requests\StaffRequest;
+use App\Models\Role;
+use App\Models\Staff;
+use App\Models\User;
 use Image;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 
-class ProductController extends Controller
+class StaffController extends Controller
 {
     public function index()
     {
-        return view('product.index');
+        return view('staff.index');
     }
 
     public function render() 
     {
-        $product = Product::with('attribute')->get();
+        $staff = Staff::all();
         $view = [
-            'data' => view('product.render')->with([
-                'product' => $product
+            'data' => view('staff.render')->with([
+                'staff' => $staff
             ])->render()
         ];
 
@@ -31,21 +32,22 @@ class ProductController extends Controller
 
     public function create() 
     {
-        $category = Category::pluck('name', 'id')->prepend('Pilih kategori...', '')->toArray();
         $view = [
-            'data' => view('product.create', compact('category'))->render()
+            'data' => view('staff.create')->render()
         ];
 
         return response()->json($view);
     }
 
-    public function store(ProductRequest $request)
+    public function store(StaffRequest $request)
     {
         try {
-            $data = [
-                'name' => $request->name,
-                'category_id' => $request->category,
-                'price' => preg_replace('/[^0-9]/', '', $request->price),
+            $role = Role::where('name', 'Staff')->first();
+
+            $userData = [
+                'username' => $request->user,
+                'password' => bcrypt($request->password),
+                'role_id' => $role->id
             ];
 
             if($request->hasFile('image')) {
@@ -57,7 +59,7 @@ class ProductController extends Controller
 
                 //filename to store
                 $filenametostore = $request->name . '-' . time() . '.' . $extension;
-                $save_path = 'assets/uploads/media/product';
+                $save_path = 'assets/uploads/media/users';
 
                 if (!file_exists($save_path)) {
                     mkdir($save_path, 666, true);
@@ -66,9 +68,20 @@ class ProductController extends Controller
                 $img->resize(512, 512);
                 $img->save($save_path . '/' . $filenametostore);
 
-                $data['image'] = $save_path . '/' . $filenametostore;
+                $userData['image'] = $save_path . '/' . $filenametostore;
             }
-            Product::create($data);
+
+            $user = User::create($userData);
+
+            $data = [
+                'user_id' => $user->id,
+                'name' => $request->name,
+                'gender' => $request->gender,
+                'phone' => $request->phone,
+                'address' => $request->address,
+            ];
+
+            Staff::create($data);
 
             return response()->json([
                 'status' => 'success',
@@ -88,26 +101,46 @@ class ProductController extends Controller
 
     public function edit($id) 
     {
-        $product = Product::with('attribute')->where('id', $id)->first();
-        $category = Category::pluck('name', 'id')->prepend('Pilih kategori...', '')->toArray();
+        $staff = Staff::with('user')->where('id', $id)->first();
+        
         $view = [
-            'data' => view('product.edit', compact('category', 'product'))->render()
+            'data' => view('staff.edit', compact('staff'))->render()
         ];
 
         return response()->json($view);
     }
 
-    public function update(ProductRequest $request)
+    public function update(StaffRequest $request)
     {
         try {
-            $product = Product::find($request->id);
-            $data = [
-                'name' => $request->name,
-                'category_id' => $request->category,
-                'price' => preg_replace('/[^0-9]/', '', $request->price),
+            $user = User::find($request->user_id);
+            $userData = [
+                'username' => $request->user,
+                // 'password' => bcrypt($request->password),
             ];
 
+            if($request->has('current_password') && $request->current_password != '') {
+                if($request->new_password == '' || $request->confirmation_password == '') {
+                    return response()->json([
+                        'status' => 'error',
+                        'message' => 'Password harus diisi',
+                        'title' => 'Gagal',
+                    ]);
+                } else {
+                    if(!Hash::check($request->current_password, $user->password)) {
+                        return response()->json([
+                            'status' => 'error',
+                            'message' => 'Password lama tidak sesuai',
+                            'title' => 'Gagal'
+                        ]);
+                    } else {
+                        $userData['password'] = Hash::make($request->new_password);
+                    }
+                }
+            }
+
             if($request->hasFile('image')) {
+                unlink($user->image);
                 //get filename with extension
                 $filenamewithextension = $request->file('image')->getClientOriginalName();
 
@@ -116,7 +149,7 @@ class ProductController extends Controller
 
                 //filename to store
                 $filenametostore = $request->name . '-' . time() . '.' . $extension;
-                $save_path = 'assets/uploads/media/product';
+                $save_path = 'assets/uploads/media/users';
 
                 if (!file_exists($save_path)) {
                     mkdir($save_path, 666, true);
@@ -125,19 +158,19 @@ class ProductController extends Controller
                 $img->resize(512, 512);
                 $img->save($save_path . '/' . $filenametostore);
 
-                $data['image'] = $save_path . '/' . $filenametostore;
+                $userData['image'] = $save_path . '/' . $filenametostore;
             }
-            
-            $product->update($data);
 
-            // update attribute
-            ProductAttributes::updateOrCreate([
-                'product_id' => $request->id
-            ], [
-                'product_id' => $request->id,
-                'stock' => $request->stock,
-                'product_rejected' => $request->rejected,
-            ]);
+            $user->update($userData);
+
+            $data = [
+                'name' => $request->name,
+                'gender' => $request->gender,
+                'phone' => $request->phone,
+                'address' => $request->address,
+            ];
+
+            Staff::where('user_id', $request->user_id)->update($data);
 
             return response()->json([
                 'status' => 'success',
@@ -158,9 +191,9 @@ class ProductController extends Controller
     public function delete($id)
     {
         try {
-            $product = Product::find($id);
-            unlink($product->image);
-            $product->delete();
+            $staff = Staff::find($id);
+            unlink($staff->user->image);
+            $staff->delete();
             return response()->json([
                 'status' => 'success',
                 'message' => 'Data berhasil dihapus',

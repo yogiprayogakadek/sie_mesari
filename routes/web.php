@@ -50,6 +50,16 @@ Route::middleware('auth')->namespace('Main')->group(function() {
         Route::get('/delete/{id}', 'MemberController@delete')->name('delete');
     });
 
+    Route::prefix('/staff')->name('staff.')->group(function() {
+        Route::get('/', 'StaffController@index')->name('index');
+        Route::get('/render', 'StaffController@render')->name('render');
+        Route::get('/create', 'StaffController@create')->name('create');
+        Route::post('/store', 'StaffController@store')->name('store');
+        Route::get('/edit/{id}', 'StaffController@edit')->name('edit');
+        Route::post('/update', 'StaffController@update')->name('update');
+        Route::get('/delete/{id}', 'StaffController@delete')->name('delete');
+    });
+
     Route::prefix('/sale')->name('sale.')->group(function() {
         Route::get('/', 'SaleController@index')->name('index');
         Route::get('/search-product/{slug}', 'SaleController@search')->name('search');
@@ -58,6 +68,7 @@ Route::middleware('auth')->namespace('Main')->group(function() {
     Route::prefix('/cart')->name('cart.')->group(function() {
         Route::post('/add', 'CartController@add')->name('add');
         Route::post('/update', 'CartController@update')->name('update');
+        Route::post('/checkout', 'CartController@checkout')->name('checkout');
         Route::get('/remove/{id}', 'CartController@remove')->name('remove');
         Route::get('/check-cart', 'CartController@check')->name('check');
     });

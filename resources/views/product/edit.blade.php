@@ -37,6 +37,16 @@
                     <div class="invalid-feedback error-image"></div>
                 </div>
                 <div class="form-group">
+                    <label for="stock">Stok Produk</label>
+                    <input type="text" class="form-control stock" name="stock" id="stock" placeholder="masukkan stok produk" value="{{$product->attribute != null ? $product->attribute->stock : 0}}">
+                    <div class="invalid-feedback error-stock"></div>
+                </div>
+                <div class="form-group">
+                    <label for="rejected">Produk Rejected</label>
+                    <input type="text" class="form-control rejected" name="rejected" id="rejected" placeholder="masukkan stok produk" value="{{$product->attribute != null ? $product->attribute->product_rejected : 0}}">
+                    <div class="invalid-feedback error-rejected"></div>
+                </div>
+                <div class="form-group">
                     <button class="btn btn-success btn-update pull-right" type="button">
                         <i class="fa fa-save"></i> Simpan
                     </button>
@@ -51,4 +61,12 @@
         minimumResultsForSearch: '',
         // width: '100%'
     });
+
+    $("#stock").inputFilter(function(value) {
+        return /^\d*$/.test(value);
+    },"Hanya mengandung angka");
+
+    $("#rejected").inputFilter(function(value) {
+        return /^\d*$/.test(value);
+    },"Hanya mengandung angka");
 </script>

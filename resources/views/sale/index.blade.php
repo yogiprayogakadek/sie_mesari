@@ -99,7 +99,7 @@
                     </tbody>
                 </table>
             </div>
-            <div class="card-footer">
+            <div class="card-footer block-hide" hidden>
                 <div class="row">
                     <div class="col-6 text-start">
                         <button class="btn btn-danger btn-remove-discount" type="button">
@@ -117,9 +117,37 @@
         </div>
     </div>
 
+    {{-- member --}}
+    <div class="col-6 block-hide" hidden></div>
+    <div class="col-6 block-hide" hidden>
+        <div class="card d-block">
+            <div class="card-header">
+                <div class="card-title">Member</div>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-borderless" id="tableMember">
+                        <tbody>
+                            <tr>
+                                <td class="text-start">Pilih Member</td>
+                                <td class="text-end member">
+                                    <select name="member_id" id="member_id" class="form-control select2-show-search ">
+                                        @foreach ($member as $key => $value)
+                                            <option value="{{$key}}">{{$value}}</option>
+                                        @endforeach
+                                    </select>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
     {{-- total --}}
-    <div class="col-6"></div>
-    <div class="col-6">
+    <div class="col-6 block-hide" hidden></div>
+    <div class="col-6 block-hide" hidden>
         <div class="card d-block">
             <div class="card-header">
                 <div class="card-title">Total Keranjang</div>
@@ -148,6 +176,16 @@
                     </table>
                 </div>
             </div>
+            <div class="card-footer">
+                <div class="row">
+                    <div class="col-6 text-start"></div>
+                    <div class="col-6 text-end">
+                        <button class="btn btn-primary btn-checkout">
+                            <i class="fa fa-arrow-right"></i> Proses Transaksi
+                        </button>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>
@@ -156,11 +194,16 @@
 @push('script')
 <script src="{{asset('functions/main.js')}}"></script>
 <script src="{{asset('functions/sale/main.js')}}"></script>
+<script src="https://spruko.com/demo/sash/sash/assets/plugins/select2/select2.full.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/jquery.session@1.0.0/jquery.session.min.js"></script>
     <script>
         function assets(url) {
             var url = '{{ url("") }}/' + url;
             return url;
         }
+        $('.select2-show-search').select2({
+            minimumResultsForSearch: '',
+            // width: '100%'
+        });
     </script>
 @endpush

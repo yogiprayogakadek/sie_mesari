@@ -25,16 +25,26 @@
         return \Cart::session(auth()->user()->id)->getContent();
     }
 
-    function subTotal()
-{
-    $user_id = auth()->user()->id;
-    $cart = \Cart::session($user_id)->getContent();
-    $subtotal = 0;
-    foreach ($cart as $item) {
-        $subtotal += $item->price * $item->quantity;
+    function clearCart()
+    {
+        return \Cart::session(auth()->user()->id)->clear();
     }
 
-    return convertToRupiah($subtotal);
-}
+    function subTotal()
+    {
+        $user_id = auth()->user()->id;
+        $cart = \Cart::session($user_id)->getContent();
+        $subtotal = 0;
+        foreach ($cart as $item) {
+            $subtotal += $item->price * $item->quantity;
+        }
+
+        return convertToRupiah($subtotal);
+    }
+
+    function generateTransactionCode()
+    {
+        return "TRANSID-" . strtoupper(uniqid());
+    }
 
 ?>

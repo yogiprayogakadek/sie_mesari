@@ -15,4 +15,9 @@ class Sale extends Model
     {
         return $this->belongsTo(Member::class, 'member_id', 'id');
     }
+
+    public function detail()
+    {
+        return $this->belongsTo(SaleDetail::class, 'sale_id', 'id');
+    }
 }
