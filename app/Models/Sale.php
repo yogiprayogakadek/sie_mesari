@@ -16,8 +16,13 @@ class Sale extends Model
         return $this->belongsTo(Member::class, 'member_id', 'id');
     }
 
+    public function staff()
+    {
+        return $this->belongsTo(Staff::class, 'staff_id', 'id');
+    }
+
     public function detail()
     {
-        return $this->belongsTo(SaleDetail::class, 'sale_id', 'id');
+        return $this->hasMany(SaleDetail::class, 'sale_id', 'id');
     }
 }

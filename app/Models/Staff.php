@@ -15,4 +15,9 @@ class Staff extends Model
     {
         return $this->belongsTo(User::class, 'user_id', 'id');
     }
+
+    public function sale()
+    {
+        return $this->hasMany(Sale::class, 'staff_id', 'id');
+    }
 }

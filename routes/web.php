@@ -63,6 +63,11 @@ Route::middleware('auth')->namespace('Main')->group(function() {
     Route::prefix('/sale')->name('sale.')->group(function() {
         Route::get('/', 'SaleController@index')->name('index');
         Route::get('/search-product/{slug}', 'SaleController@search')->name('search');
+
+        // detail
+        Route::get('/detail', 'SaleController@detail')->name('detail');
+        Route::get('/detail/render', 'SaleController@detailRender')->name('detail.render');
+        Route::get('/detail/filter/{start_date}/{end_date}', 'SaleController@detailFilter')->name('detail.filter');
     });
     
     Route::prefix('/cart')->name('cart.')->group(function() {
