@@ -51,7 +51,7 @@
                     <div class="row justify-content-center">
                         <div class="col-xl-5 col-lg-6 col-md-8 px-5">
                             <h1 class="text-white">Welcome!</h1>
-                            <p class="text-lead text-white">Sistem Informasi</p>
+                            <p class="text-lead text-white">Sistem Informasi Penjualan PT. Mesari Hasari</p>
                         </div>
                     </div>
                 </div>
@@ -94,11 +94,11 @@
                             </form>
                         </div>
                     </div>
-                    <div class="row mt-3">
+                    {{--<div class="row mt-3">
                         <div class="col-6"><a href="#" class="text-gray"><small></small></a></div>
                         <div class="col-6 text-right"><a href="/pendaftaran" class="text-gray"><small>Buat akun baru</small></a></div>
                     </div>
-                    {{--<div class="row mt-3">
+                    <div class="row mt-3">
                         <div class="col-6"><a href="#" class="text-gray"><small>Forgot password?</small></a></div>
                         <div class="col-6 text-right"><a href="#" class="text-gray"><small>Create new
                                     account</small></a></div>

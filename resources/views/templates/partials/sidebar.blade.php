@@ -1,13 +1,12 @@
 <div class="sticky" style="margin-bottom: -74px;">
     <div class="app-sidebar__overlay" data-bs-toggle="sidebar"></div>
     <div class="app-sidebar ps ps--active-y sidemenu-scroll">
-        <div class="side-header"> <a class="header-brand1" href="{{route('dashboard.index')}}"> <img
-                    src="{{asset('assets/images/logo.jpeg')}}" class="header-brand-img desktop-logo"
-                    alt="logo"> <img src="{{asset('assets/images/logo.jpeg')}}"
-                    class="header-brand-img toggle-logo" alt="logo"> <img
-                    src="{{asset('assets/images/logo.jpeg')}}" class="header-brand-img light-logo"
-                    alt="logo"> <img src="{{asset('assets/images/logo.jpeg')}}"
-                    class="header-brand-img light-logo1" style="width: 100px" alt="logo"> </a> <!-- LOGO -->
+        <div class="side-header"> <a class="header-brand1" href="{{route('dashboard.index')}}"> 
+            <img src="{{asset('assets/images/logo.png')}}" class="header-brand-img desktop-logo" alt="logo"> 
+            <img src="{{asset('assets/images/logo.png')}}" class="header-brand-img toggle-logo" alt="logo"> 
+            <img src="{{asset('assets/images/logo.png')}}" class="header-brand-img light-logo" alt="logo"> 
+            <img src="{{asset('assets/images/logo.png')}}"
+            class="header-brand-img light-logo1" style="width: 70px" alt="logo"> </a> <!-- LOGO -->
         </div>
         <div class="main-sidemenu">
             <div class="slide-left disabled" id="slide-left"><svg xmlns="http://www.w3.org/2000/svg"
@@ -27,13 +26,13 @@
                 </li>
                 <li class="slide"> 
                     <a class="side-menu__item has-link {{Request::is('category') ? 'active' : '' }}" data-bs-toggle="slide"
-                        href="{{route('category.index')}}"><i class="side-menu__icon fe fe-home"></i><span
+                        href="{{route('category.index')}}"><i class="side-menu__icon fe fe-layers"></i><span
                             class="side-menu__label">Kategori</span>
                     </a>
                 </li>
                 <li class="slide"> 
                     <a class="side-menu__item has-link {{Request::is('product') ? 'active' : '' }}" data-bs-toggle="slide"
-                        href="{{route('product.index')}}"><i class="side-menu__icon fe fe-home"></i><span
+                        href="{{route('product.index')}}"><i class="side-menu__icon fe fe-pie-chart"></i><span
                             class="side-menu__label">Produk</span>
                     </a>
                 </li>
@@ -45,19 +44,21 @@
                 </li>
                 <li class="slide"> 
                     <a class="side-menu__item has-link {{Request::is('member') ? 'active' : '' }}" data-bs-toggle="slide"
-                        href="{{route('member.index')}}"><i class="side-menu__icon fe fe-home"></i><span
+                        href="{{route('member.index')}}"><i class="side-menu__icon fe fe-user"></i><span
                             class="side-menu__label">Member</span>
                     </a>
                 </li>
+                @can('staff')
                 <li class="slide"> 
                     <a class="side-menu__item has-link {{Request::is('sale') ? 'active' : '' }}" data-bs-toggle="slide"
-                        href="{{route('sale.index')}}"><i class="side-menu__icon fe fe-home"></i><span
+                        href="{{route('sale.index')}}"><i class="side-menu__icon fe fe-shopping-bag"></i><span
                             class="side-menu__label">Transaksi</span>
                     </a>
                 </li>
+                @endcan
                 <li class="slide"> 
                     <a class="side-menu__item has-link {{Request::is('sale/detail') ? 'active' : '' }}" data-bs-toggle="slide"
-                        href="{{route('sale.detail')}}"><i class="side-menu__icon fe fe-home"></i><span
+                        href="{{route('sale.detail')}}"><i class="side-menu__icon fe fe-shopping-cart"></i><span
                             class="side-menu__label">Detail Transaksi</span>
                     </a>
                 </li>

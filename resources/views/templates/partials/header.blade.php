@@ -2,10 +2,10 @@
     <div class="container-fluid main-container">
         <div class="d-flex"> <a aria-label="Hide Sidebar" class="app-sidebar__toggle"
                 data-bs-toggle="sidebar" href="javascript:void(0)"></a> <!-- sidebar-toggle--> <a
-                class="logo-horizontal " href="index.html"> <img src="https://spruko.com/demo/sash/sash/assets/images/brand/logo.png"
+                class="logo-horizontal " href="index.html"> <img src="{{asset('assets/images/logo.png')}}"
                     class="header-brand-img desktop-logo" alt="logo"> <img
-                    src="https://spruko.com/demo/sash/sash/assets/images/brand/logo-3.png" class="header-brand-img light-logo1"
-                    alt="logo"> </a> <!-- LOGO -->
+                    src="{{asset('assets/images/logo.png')}}" class="header-brand-img light-logo1"
+                    alt="logo" style="width: 70px"> </a> <!-- LOGO -->
             <div class="d-flex order-lg-2 ms-auto header-right-icons">
                 <button
                     class="navbar-toggler navresponsive-toggler d-lg-none ms-auto" type="button"
@@ -41,9 +41,9 @@
                                         </div>
                                     </div>
                                     <div class="dropdown-divider m-0"></div> 
-                                    <a class="dropdown-item"
+                                    {{-- <a class="dropdown-item"
                                         href="profile.html"> <i class="dropdown-icon fe fe-user"></i>
-                                        Profile </a> 
+                                        Profile </a>  --}}
                                         {{-- <a class="dropdown-item" href="email-inbox.html">
                                         <i class="dropdown-icon fe fe-mail"></i> Inbox <span
                                             class="badge bg-danger rounded-pill float-end">5</span> </a>

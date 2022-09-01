@@ -49,4 +49,14 @@ class SaleController extends Controller
 
         return response()->json($view);
     }
+
+    public function print($start, $end)
+    {
+        $data = Sale::with('detail.product', 'member', 'staff')->whereBetween('sale_date', [$start, $end])->get();
+        $view = [
+            'data' => view('sale.detail.print', compact('data'))->render()
+        ];
+
+        return response()->json($view);
+    }
 }

@@ -47,4 +47,60 @@
         return "TRANSID-" . strtoupper(uniqid());
     }
 
-?>
+    function menu()
+    {
+        $menu = [
+            'Category', 'Product', 'Staff', 'Member', 'Sale'
+        ];
+
+        return $menu;
+    }
+
+    function indoMenu()
+    {
+        $menu = [
+            'Kategori', 'Produk', 'Staff', 'Member', 'Transaksi'
+        ];
+
+        return $menu;
+    }
+
+    function RouteURL()
+    {
+        $url = [
+            0 => 'category.index',
+            1 => 'product.index',
+            2 => 'staff.index',
+            3 => 'member.index',
+            4 => 'sale.index'
+        ];
+
+        return $url;
+    }
+
+    function totalData($model)
+    {
+        $a = 'App\Models\\' . $model;
+        $total = $a::count();
+        return $total;
+    }
+
+    function bulan()
+    {
+        $bulan = [
+            'Januari',
+            'Februari',
+            'Maret',
+            'April',
+            'Mei',
+            'Juni',
+            'Juli',
+            'Agustus',
+            'September',
+            'Oktober',
+            'November',
+            'Desember',
+        ];
+    
+        return $bulan;
+    }

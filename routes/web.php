@@ -18,6 +18,7 @@ Route::get('/', 'Main\DashboardController@index')->middleware('auth')->name('das
 Route::middleware('auth')->namespace('Main')->group(function() {
     Route::prefix('/dashboard')->name('dashboard.')->group(function() {
         Route::get('/', 'DashboardController@index')->name('index');
+        Route::post('/chart', 'DashboardController@chart')->name('chart');
     });
 
     Route::prefix('/category')->name('category.')->group(function() {
@@ -63,6 +64,7 @@ Route::middleware('auth')->namespace('Main')->group(function() {
     Route::prefix('/sale')->name('sale.')->group(function() {
         Route::get('/', 'SaleController@index')->name('index');
         Route::get('/search-product/{slug}', 'SaleController@search')->name('search');
+        Route::get('/print/{start_date}/{end_date}', 'SaleController@print')->name('print');
 
         // detail
         Route::get('/detail', 'SaleController@detail')->name('detail');

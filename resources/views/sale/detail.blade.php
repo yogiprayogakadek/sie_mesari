@@ -86,5 +86,36 @@
 
         filterData(start_date, end_date);
     });
+
+    $('body').on('click', '.btn-print', function () {
+        Swal.fire({
+            title: 'Cetak data transaksi?',
+            text: "Laporan akan dicetak",
+            icon: 'success',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Ya, cetak!'
+        }).then((result) => {
+            if (result.value) {
+                var mode = "iframe"; //popup
+                var close = mode == "popup";
+                var options = {
+                    mode: mode,
+                    popClose: close,
+                    popTitle: 'LaporanDataTransaksi',
+                };
+                $.ajax({
+                    type: "GET",
+                    url: "/sale/print/"+$('#start_date').val()+"/"+$('#end_date').val(),
+                    dataType: "json",
+                    success: function (response) {
+                        document.title= 'Laporan - ' + new Date().toJSON().slice(0,10).replace(/-/g,'/')
+                        $(response.data).find("div.printableArea").printArea(options);
+                    }
+                });
+            }
+        })
+    });
 </script>
 @endpush
