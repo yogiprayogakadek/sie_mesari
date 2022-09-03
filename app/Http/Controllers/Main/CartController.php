@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Main;
 
 use App\Http\Controllers\Controller;
+use App\Models\Member;
 use App\Models\Product;
 use App\Models\ProductAttributes;
 use App\Models\Sale;
@@ -102,6 +103,10 @@ class CartController extends Controller
     public function checkout(Request $request)
     {
         try {
+            // before discount
+            $totalBeforeDiscount = ($request->total*100)/(100-$request->discount);
+            $point = floor($totalBeforeDiscount/20000);
+
             $sale = Sale::create([
                 'transaction_code' => generateTransactionCode(),
                 'staff_id' => auth()->user()->staff->id,
@@ -110,6 +115,13 @@ class CartController extends Controller
                 'total' => $request->total,
                 'sale_date' => date('Y-m-d H:i:s')
             ]);
+
+            if($request->member_id != null) {
+                $member = Member::find($request->member_id);
+                $member->update([
+                    'point' => $member->point + $point
+                ]);
+            }
 
             foreach (cart() as $d) {
                 $produk = Product::find($d->id);

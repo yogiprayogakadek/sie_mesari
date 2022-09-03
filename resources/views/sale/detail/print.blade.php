@@ -9,7 +9,7 @@
 @section('content')
 <div class="row printableArea">
     <div class="col-md-12" style="text-align: center">
-        <h2><strong>PT. Mesari Hasari</strong></h2>
+        <h2><strong>PT. Mesari Adi Harsa</strong></h2>
         <h3>
             <b>Laporan Data Transaksi</b>
         </h3>
