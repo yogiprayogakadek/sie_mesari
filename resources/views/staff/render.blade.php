@@ -40,9 +40,9 @@
                             <button class="btn btn-info btn-edit" data-id="{{$staff->id}}">
                                 <i class="fa fa-pencil"></i>
                             </button>
-                            <button class="btn btn-danger btn-delete" data-id="{{$staff->id}}">
+                            {{-- <button class="btn btn-danger btn-delete" data-id="{{$staff->id}}">
                                 <i class="fa fa-trash"></i>
-                            </button>
+                            </button> --}}
                         </td>
                         @endcan
                     </tr>

@@ -38,6 +38,8 @@ class DashboardController extends Controller
                 'tahun' => $request->tahun,
                 'chart' => $chart,
                 'totalData' => count($data),
+                'tertinggi' => max($chart),
+                'terendah' => min($chart),
             ])->render()
         ];
 

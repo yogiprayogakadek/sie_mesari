@@ -1,7 +1,7 @@
 <div class="card d-block">
     <div class="card-header">
         <div class="card-title">Data Member</div>
-        @can('admin')
+        @can('adminAndStaff')
         <div class="card-options">
             <button class="btn btn-primary btn-add" style="margin-left: 2px">
                 <i class="fa fa-plus"></i> Tambah
@@ -18,7 +18,7 @@
                 <th>No. Telp</th>
                 <th>Alamat</th>
                 <th>Poin</th>
-                @can('admin')
+                @can('adminAndStaff')
                 <th>Aksi</th>
                 @endcan
             </thead>
@@ -31,14 +31,14 @@
                         <td>{{$member->phone}}</td>
                         <td>{{$member->address}}</td>
                         <td>{{$member->point}}</td>
-                        @can('admin')
+                        @can('adminAndStaff')
                         <td>
                             <button class="btn btn-info btn-edit" data-id="{{$member->id}}">
                                 <i class="fa fa-pencil"></i>
                             </button>
-                            <button class="btn btn-danger btn-delete" data-id="{{$member->id}}">
+                            {{-- <button class="btn btn-danger btn-delete" data-id="{{$member->id}}">
                                 <i class="fa fa-trash"></i>
-                            </button>
+                            </button> --}}
                         </td>
                         @endcan
                     </tr>

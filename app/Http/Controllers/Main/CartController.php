@@ -116,7 +116,7 @@ class CartController extends Controller
                 'sale_date' => date('Y-m-d H:i:s')
             ]);
 
-            if($request->member_id != null) {
+            if($request->member_id != 'none') {
                 $member = Member::find($request->member_id);
                 $member->update([
                     'point' => $member->point + $point

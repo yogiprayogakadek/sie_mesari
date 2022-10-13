@@ -1,6 +1,12 @@
 <div>
     <canvas id="myChart"></canvas>
 </div>
+
+<div class="card-footer">
+    <h4>
+        Dari grafik diatas dapat disimpulkan produk yang terjual paling banyak pada bulan {!!'<strong>' . $bulan . '</strong>' !!} tahun {!!'<strong>' . $tahun . '</strong>' !!} adalah {!! '<strong>' . $tertinggi['nama_produk'] . '</strong>' !!} dengan total penjualan {!! '<strong>' . $tertinggi['jumlah'] . '</strong>' !!} buah. Sementara untuk produk yang terjual paling sedikit pada bulan {!!'<strong>' . $bulan . '</strong>' !!} tahun {!!'<strong>' . $tahun . '</strong>' !!} adalah {!! '<strong>' . $terendah['nama_produk'] . '</strong>' !!} dengan total penjualan {!! '<strong>' . $terendah['jumlah'] . '</strong>' !!} buah.
+    </h4>
+</div>
 <script>
     @if ($totalData == 0)
         $('body .render').html('<div class="alert alert-danger text-center">Tidak ada data pada bulan ini</div>');
