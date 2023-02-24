@@ -21,7 +21,10 @@ class SaleController extends Controller
     {
         $product = Product::whereHas('category',function($query) {
             $query->where('status', true);
-        })->with('attribute')->where('name', 'LIKE', '%' . $slug . '%')->get();
+        })->with('attribute')
+        ->where('name', 'LIKE', '%' . $slug . '%')
+        ->where('status', true)
+        ->get();
 
         return response()->json($product);
     }

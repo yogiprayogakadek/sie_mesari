@@ -35,14 +35,16 @@ class ProductRequest extends FormRequest
                 'image' => 'required',
                 'image.*' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
                 'stock' => 'nullable',
-                'rejected' => 'nullable'
+                'rejected' => 'nullable',
+                'status' => 'nullable'
             ];
         } else {
             $rules += [
                 'image' => 'nullable',
                 'image.*' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
                 'stock' => 'required',
-                'rejected' => 'required'
+                'rejected' => 'required',
+                'status' => 'required'
             ];
         }
 
@@ -67,7 +69,8 @@ class ProductRequest extends FormRequest
             'price' => 'Harga',
             'image' => 'Foto',
             'stock' => 'Stok',
-            'rejected' => 'Produk rejected'
+            'rejected' => 'Produk rejected',
+            'status' => 'Status'
         ];
     }
 }

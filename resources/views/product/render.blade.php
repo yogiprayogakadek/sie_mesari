@@ -18,6 +18,7 @@
                 <th>Foto</th>
                 <th>Stok</th>
                 <th>Produk Reject</th>
+                <th>Status</th>
                 @can('adminAndStaff')
                 <th>Aksi</th>
                 @endcan
@@ -33,6 +34,7 @@
                         </td>
                         <td>{{$product->attribute != null ? $product->attribute->stock : 0}}</td>
                         <td>{{$product->attribute != null ? $product->attribute->product_rejected : 0}}</td>
+                        <td>{{$product->status == 1 ? 'Aktif' : 'Tidak Aktif'}}</td>
                         @can('adminAndStaff')
                         <td>
                             <button class="btn btn-info btn-edit" data-id="{{$product->id}}">
