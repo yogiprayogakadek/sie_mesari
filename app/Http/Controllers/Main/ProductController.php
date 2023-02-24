@@ -19,7 +19,9 @@ class ProductController extends Controller
 
     public function render() 
     {
-        $product = Product::with('attribute')->get();
+        $product = Product::whereHas('category',function($query) {
+            $query->where('status', true);
+        })->with('attribute')->get();
         $view = [
             'data' => view('product.render')->with([
                 'product' => $product
@@ -31,7 +33,7 @@ class ProductController extends Controller
 
     public function create() 
     {
-        $category = Category::pluck('name', 'id')->prepend('Pilih kategori...', '')->toArray();
+        $category = Category::where('status', true)->pluck('name', 'id')->prepend('Pilih kategori...', '')->toArray();
         $view = [
             'data' => view('product.create', compact('category'))->render()
         ];
@@ -89,7 +91,7 @@ class ProductController extends Controller
     public function edit($id) 
     {
         $product = Product::with('attribute')->where('id', $id)->first();
-        $category = Category::pluck('name', 'id')->prepend('Pilih kategori...', '')->toArray();
+        $category = Category::where('status', true)->pluck('name', 'id')->prepend('Pilih kategori...', '')->toArray();
         $view = [
             'data' => view('product.edit', compact('category', 'product'))->render()
         ];

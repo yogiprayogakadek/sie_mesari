@@ -15,6 +15,7 @@
                 <th>No</th>
                 <th>Nama Kategori</th>
                 @can('adminAndStaff')
+                <th>Status</th>
                 <th>Aksi</th>
                 @endcan
             </thead>
@@ -24,13 +25,11 @@
                         <td>{{$loop->iteration}}</td>
                         <td>{{$category->name}}</td>
                         @can('adminAndStaff')
+                        <td>{{$category->status == 1 ? 'Aktif' : 'Tidak Aktif'}}</td>
                         <td>
                             <button class="btn btn-info btn-edit" data-id="{{$category->id}}">
                                 <i class="fa fa-pencil"></i>
                             </button>
-                            {{-- <button class="btn btn-danger btn-delete" data-id="{{$category->id}}">
-                                <i class="fa fa-trash"></i>
-                            </button> --}}
                         </td>
                         @endcan
                     </tr>

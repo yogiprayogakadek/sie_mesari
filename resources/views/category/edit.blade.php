@@ -17,6 +17,15 @@
                     <div class="invalid-feedback error-name"></div>
                 </div>
                 <div class="form-group">
+                    <label for="status">Status</label>
+                        <select name="status" id="status" class="form-control status">
+                            <option value="">Pilih Status</option>
+                            <option value="1" {{$category->status == 1 ? 'selected' : ''}}>Aktif</option>
+                            <option value="0" {{$category->status == 0 ? 'selected' : ''}}>Tidak Aktif</option>
+                        </select>
+                        <div class="invalid-feedback error-status"></div>
+                </div>
+                <div class="form-group">
                     <button class="btn btn-success btn-update pull-right" type="button">
                         <i class="fa fa-save"></i> Simpan
                     </button>

@@ -28,6 +28,16 @@ class CategoryRequest extends FormRequest
             'name' => 'required'
         ];
 
+        if (!Request::instance()->has('id')) {
+            $rules += [
+                'status' => 'nullable'
+            ];
+        } else {
+            $rules += [
+                'status' => 'required'
+            ];
+        }
+
         return $rules;
     }
 
@@ -42,6 +52,7 @@ class CategoryRequest extends FormRequest
     {
         $attr = [
             'name' => 'Nama kategori',
+            'status' => 'Status'
         ];
 
         return $attr;

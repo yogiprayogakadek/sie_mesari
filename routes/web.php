@@ -70,6 +70,7 @@ Route::middleware('auth')->namespace('Main')->group(function() {
         Route::get('/detail', 'SaleController@detail')->name('detail');
         Route::get('/detail/render', 'SaleController@detailRender')->name('detail.render');
         Route::get('/detail/filter/{start_date}/{end_date}', 'SaleController@detailFilter')->name('detail.filter');
+        Route::get('/find-by-id/{sale_id}', 'SaleController@findById')->name('byId');
     });
     
     Route::prefix('/cart')->name('cart.')->group(function() {

@@ -74,7 +74,8 @@ class CategoryController extends Controller
         try {
             $category = Category::find($request->id);
             $category->update([
-                'name' => $request->name
+                'name' => $request->name,
+                'status' => $request->status
             ]);
 
             return response()->json([
