@@ -1,7 +1,7 @@
 <div class="card d-block">
     <div class="card-header">
         <div class="card-title">Data Produk</div>
-        @can('adminAndStaff')
+        @can('admin')
         <div class="card-options">
             <button class="btn btn-primary btn-add" style="margin-left: 2px">
                 <i class="fa fa-plus"></i> Tambah
@@ -19,7 +19,7 @@
                 <th>Stok</th>
                 {{-- <th>Produk Reject</th> --}}
                 <th>Status</th>
-                @can('adminAndStaff')
+                @can('admin')
                 <th>Aksi</th>
                 @endcan
             </thead>
@@ -35,7 +35,7 @@
                         <td>{{$product->attribute != null ? $product->attribute->stock : 0}}</td>
                         {{-- <td>{{$product->attribute != null ? $product->attribute->product_rejected : 0}}</td> --}}
                         <td>{{$product->status == 1 ? 'Aktif' : 'Tidak Aktif'}}</td>
-                        @can('adminAndStaff')
+                        @can('admin')
                         <td>
                             <button class="btn btn-info btn-edit" data-id="{{$product->id}}">
                                 <i class="fa fa-pencil"></i>
