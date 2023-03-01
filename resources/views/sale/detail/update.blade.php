@@ -2,9 +2,9 @@
     <thead>
         <th>No</th>
         <th>Kode Transaksi</th>
-        <th>Staff</th>
-        <th>Member</th>
-        <th>Discount</th>
+        <th>Karyawan</th>
+        <th>Anggota</th>
+        <th>Diskon</th>
         <th>Total</th>
         <th>Tanggal Transaksi</th>
         <th></th>
@@ -82,8 +82,8 @@
         let sale_id = $(this).data('id');
         $('#modalDetail').modal('show');
 
+        $('#tableDetail tbody').empty();
         $.get("/sale/find-by-id/"+sale_id, function (data) {
-            $('#tableDetail tbody').empty();
             $.each(data.detail, function (index, value) { 
                 let tr_list = '<tr>' +
                                 '<td>' + value.no + '</td>' +

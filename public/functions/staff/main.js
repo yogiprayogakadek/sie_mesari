@@ -62,14 +62,22 @@ $(document).ready(function () {
                 $('.btn-save').html('Simpan')
             },
             success: function (response) {
-                $('#formAdd').trigger('reset')
-                $(".invalid-feedback").html('')
-                getData();
-                Swal.fire(
-                    response.title,
-                    response.message,
-                    response.status
-                );
+                if(response.status != 'info') {
+                    $('#formAdd').trigger('reset')
+                    $(".invalid-feedback").html('')
+                    getData();
+                    Swal.fire(
+                        response.title,
+                        response.message,
+                        response.status
+                    );
+                } else {
+                    Swal.fire(
+                        response.title,
+                        response.message,
+                        response.status
+                    );
+                }
             },
             error: function (error) {
                 let formName = []
@@ -87,6 +95,15 @@ $(document).ready(function () {
                                 $('.error-' + key).html(value)
                             }
                         })
+
+                        if(/^\d+$/.test($('.phone').val())) {
+                            $('.phone').removeClass('is-invalid')
+                            $('.error-phone').html('')
+                        } else {
+                            $('.phone').addClass('is-invalid')
+                            $('.error-phone').html(error.responseJSON.errors.phone[0])
+                        }
+
                         $.each(formName, function (i, field) {
                             $.inArray(field, errorName) == -1 ? $('.'+field).removeClass('is-invalid') : $('.'+field).addClass('is-invalid');
                         });
@@ -136,14 +153,22 @@ $(document).ready(function () {
                 $('.btn-update').html('Simpan')
             },
             success: function (response) {
-                $('#formEdit').trigger('reset')
-                $(".invalid-feedback").html('')
-                getData();
-                Swal.fire(
-                    response.title,
-                    response.message,
-                    response.status
-                );
+                if(response.status != 'info') {
+                    $('#formAdd').trigger('reset')
+                    $(".invalid-feedback").html('')
+                    getData();
+                    Swal.fire(
+                        response.title,
+                        response.message,
+                        response.status
+                    );
+                } else {
+                    Swal.fire(
+                        response.title,
+                        response.message,
+                        response.status
+                    );
+                }
             },
             error: function (error) {
                 let formName = []
@@ -161,6 +186,15 @@ $(document).ready(function () {
                             //     $('.error-'+key.replace('.', '')).html(value);
                             // }
                         });
+
+                        if(/^\d+$/.test($('.phone').val())) {
+                            $('.phone').removeClass('is-invalid')
+                            $('.error-phone').html('')
+                        } else {
+                            $('.phone').addClass('is-invalid')
+                            $('.error-phone').html(error.responseJSON.errors.phone[0])
+                        }
+                        
                         $.each(formName, function (i, field) {
                             $.inArray(field, errorName) == -1 ? $('.'+field).removeClass('is-invalid') : $('.'+field).addClass('is-invalid');
                         });

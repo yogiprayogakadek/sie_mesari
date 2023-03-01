@@ -59,7 +59,7 @@
     function indoMenu()
     {
         $menu = [
-            'Kategori', 'Produk', 'Staff', 'Member', 'Transaksi'
+            'Kategori', 'Produk', 'Karyawan', 'Anggota', 'Transaksi'
         ];
 
         return $menu;

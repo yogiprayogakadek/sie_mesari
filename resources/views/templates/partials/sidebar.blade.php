@@ -39,13 +39,13 @@
                 <li class="slide"> 
                     <a class="side-menu__item has-link {{Request::is('staff') ? 'active' : '' }}" data-bs-toggle="slide"
                         href="{{route('staff.index')}}"><i class="side-menu__icon fe fe-users"></i><span
-                            class="side-menu__label">Staff</span>
+                            class="side-menu__label">Karyawan</span>
                     </a>
                 </li>
                 <li class="slide"> 
                     <a class="side-menu__item has-link {{Request::is('member') ? 'active' : '' }}" data-bs-toggle="slide"
                         href="{{route('member.index')}}"><i class="side-menu__icon fe fe-user"></i><span
-                            class="side-menu__label">Member</span>
+                            class="side-menu__label">Anggota</span>
                     </a>
                 </li>
                 @can('staff')

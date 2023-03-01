@@ -13,9 +13,9 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', 'Main\DashboardController@index')->middleware('auth')->name('dashboard.index');
+Route::get('/', 'Main\DashboardController@index')->middleware('auth');
 
-Route::middleware('auth')->namespace('Main')->group(function() {
+Route::namespace('Main')->middleware('auth')->group(function() {
     Route::prefix('/dashboard')->name('dashboard.')->group(function() {
         Route::get('/', 'DashboardController@index')->name('index');
         Route::post('/chart', 'DashboardController@chart')->name('chart');

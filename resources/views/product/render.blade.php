@@ -17,7 +17,7 @@
                 <th>Harga Produk</th>
                 <th>Foto</th>
                 <th>Stok</th>
-                <th>Produk Reject</th>
+                {{-- <th>Produk Reject</th> --}}
                 <th>Status</th>
                 @can('adminAndStaff')
                 <th>Aksi</th>
@@ -33,7 +33,7 @@
                             <img src="{{asset($product->image)}}" width="70px">
                         </td>
                         <td>{{$product->attribute != null ? $product->attribute->stock : 0}}</td>
-                        <td>{{$product->attribute != null ? $product->attribute->product_rejected : 0}}</td>
+                        {{-- <td>{{$product->attribute != null ? $product->attribute->product_rejected : 0}}</td> --}}
                         <td>{{$product->status == 1 ? 'Aktif' : 'Tidak Aktif'}}</td>
                         @can('adminAndStaff')
                         <td>

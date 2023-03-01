@@ -88,7 +88,8 @@
                                                     class="ni ni-lock-circle-open"></i></span></div><input
                                             class="form-control @error('password') is-invalid @enderror" placeholder="Password" type="password" name="password">
                                     </div>
-                                </div>
+                                    </div>
+                                    <p class="text-right text-sm forgot" style="cursor: pointer;">Lupa password?</p>
                                 <div class="text-center"><button type="submit" class="btn btn-primary my-4">Sign
                                         in</button></div>
                             </form>
@@ -149,6 +150,15 @@
                 }
                 toastr.error("{{ session('message') }}");
             @endif
+
+            $('body').on('click', '.forgot', function() {
+                toastr.options =
+                {
+                    "closeButton" : true,
+                    "progressBar" : true
+                }
+                toastr.info("Mohon hubungi admin 0889898");
+            });
         });
     </script>
 </body>

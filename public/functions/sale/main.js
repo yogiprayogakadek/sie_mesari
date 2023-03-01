@@ -14,7 +14,7 @@ function cart(data, table)
                     '<button type="button" class="btn btn-white lh-2 shadow-none '+(value.quantity == 1 ? "btn-remove" : "counter-minus")+'" data-id="'+value.id+'">' +
                         '<i class="fa fa-minus text-muted"></i>' +
                     '</button>' +
-                    '<input type="text" value="'+value.quantity+'" class="qty form-control-lg text-center" name="qty" readonly>' +
+                    '<input id=qty type="text" value="' + value.quantity + '" class="qty form-control-sm text-center" name="qty" data-id="' + value.id + '">' +
                     '<button type="button" class="counter-plus btn btn-white lh-2 shadow-none" data-id="' + value.id + '">' +
                         '<i class="fa fa-plus text-muted"></i>' +
                     '</button>' +
@@ -280,6 +280,36 @@ $(document).ready(function () {
         $('.total-discount').text(discount + '%');
         totalPrice();
         priceCut();
+    });
+
+    $('body').on('blur', '.qty', function () {
+        var id = $(this).data('id');
+        // var qty = parseInt($(this).parent().find('.qty').val()) + 1;
+        var qty = parseInt($(this).parent().find('.qty').val());
+        var cat = 'manual';
+        $.ajax({
+            url: '/cart/update',
+            type: 'POST',
+            data: {
+                id: id,
+                qty: qty,
+                cat: cat,
+                _token: $('meta[name="csrf-token"]').attr('content')
+            },
+            success: function (result) {
+                Swal.fire(
+                    result.title,
+                    result.message,
+                    result.status
+                )
+                if (result.status == 'success') {
+                    cart(result.cart, '#tableCart')
+                    $('#tableTotalCart').find('.sub-total').text(result.subtotal)
+                    totalPrice();
+                    priceCut();
+                }
+            }
+        });
     });
 
     $('body').on('click', '.btn-remove-discount', function() {

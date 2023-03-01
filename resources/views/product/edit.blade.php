@@ -41,7 +41,7 @@
                     <input type="text" class="form-control stock" name="stock" id="stock" placeholder="masukkan stok produk" value="{{$product->attribute != null ? $product->attribute->stock : 0}}">
                     <div class="invalid-feedback error-stock"></div>
                 </div>
-                <div class="form-group">
+                <div class="form-group" hidden>
                     <label for="rejected">Produk Rejected</label>
                     <input type="text" class="form-control rejected" name="rejected" id="rejected" placeholder="masukkan stok produk" value="{{$product->attribute != null ? $product->attribute->product_rejected : 0}}">
                     <div class="invalid-feedback error-rejected"></div>

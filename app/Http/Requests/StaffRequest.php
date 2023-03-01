@@ -27,7 +27,7 @@ class StaffRequest extends FormRequest
         $rules =  [
             'name' => 'required',
             'gender' => 'required',
-            'phone' => 'required',
+            'phone' => 'required|numeric',
             'address' => 'required',
             'user' => 'required',
         ];

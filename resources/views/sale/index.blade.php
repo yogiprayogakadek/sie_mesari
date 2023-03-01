@@ -76,7 +76,7 @@
                                         <button type="button" class="btn btn-white lh-2 shadow-none {{$cart->quantity == 1 ? 'btn-remove' : 'counter-minus'}}" data-id="{{$cart->id}}"> 
                                             <i class="fa fa-minus text-muted"></i> 
                                         </button> 
-                                        <input type="text" value="{{$cart->quantity}}" class="qty form-control-lg text-center" name="qty" readonly> 
+                                        <input type="text" value="{{$cart->quantity}}" class="qty form-control-lg text-center" name="qty" id="qty" data-id="{{$cart->id}}"> 
                                         <button type="button" class="counter-plus btn btn-white lh-2 shadow-none" data-id="{{$cart->id}}"> 
                                             <i class="fa fa-plus text-muted"></i> 
                                         </button>

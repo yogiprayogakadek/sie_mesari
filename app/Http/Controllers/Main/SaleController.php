@@ -84,6 +84,7 @@ class SaleController extends Controller
         $data['discount'] = $sale->discount . '%';
         $data['grand_total'] = convertToRupiah($sale->total);
 
+        // dd($data);
         return response()->json($data);
     }
 }
