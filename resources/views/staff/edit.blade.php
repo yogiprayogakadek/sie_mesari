@@ -40,11 +40,11 @@
                     <input type="text" class="form-control user" name="user" id="user" placeholder="masukkan username" value="{{$staff->user->username}}">
                     <div class="invalid-feedback error-user"></div>
                 </div>
-                <div class="form-group">
+                {{-- <div class="form-group">
                     <label for="current-password">Password Sekarang</label>
                     <input type="password" class="form-control current_password" name="current_password" id="current-password" placeholder="masukkan password sekarang">
                     <div class="invalid-feedback error-current_password"></div>
-                </div>
+                </div> --}}
                 <div class="form-group">
                     <label for="new-password">Password Baru</label>
                     <input type="password" class="form-control new_password" name="new_password" id="new-password" placeholder="masukkan password baru">

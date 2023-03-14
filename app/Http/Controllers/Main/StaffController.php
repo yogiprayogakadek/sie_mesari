@@ -139,28 +139,34 @@ class StaffController extends Controller
             if(!in_array($request->user, $allUser)) {
                 $userData = [
                     'username' => $request->user,
+                    // 'password' => Hash::make($request->new_password)
                     // 'password' => bcrypt($request->password),
                 ];
-    
-                if($request->has('current_password') && $request->current_password != '') {
-                    if($request->new_password == '' || $request->confirmation_password == '') {
-                        return response()->json([
-                            'status' => 'error',
-                            'message' => 'Password harus diisi',
-                            'title' => 'Gagal',
-                        ]);
-                    } else {
-                        if(!Hash::check($request->current_password, $user->password)) {
-                            return response()->json([
-                                'status' => 'error',
-                                'message' => 'Password lama tidak sesuai',
-                                'title' => 'Gagal'
-                            ]);
-                        } else {
-                            $userData['password'] = Hash::make($request->new_password);
-                        }
-                    }
+
+                if($request->new_password != '') {
+                    $userData['password'] = Hash::make($request->new_password);
                 }
+    
+                // Password
+                // if($request->has('current_password') && $request->current_password != '') {
+                    // if($request->new_password == '' || $request->confirmation_password == '') {
+                    //     return response()->json([
+                    //         'status' => 'error',
+                    //         'message' => 'Password harus diisi',
+                    //         'title' => 'Gagal',
+                    //     ]);
+                    // } else {
+                    //     if(!Hash::check($request->current_password, $user->password)) {
+                    //         return response()->json([
+                    //             'status' => 'error',
+                    //             'message' => 'Password lama tidak sesuai',
+                    //             'title' => 'Gagal'
+                    //         ]);
+                    //     } else {
+                    //         $userData['password'] = Hash::make($request->new_password);
+                    //     }
+                    // }
+                // }
     
                 if($request->hasFile('image')) {
                     unlink($user->image);

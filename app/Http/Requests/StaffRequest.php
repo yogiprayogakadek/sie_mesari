@@ -38,13 +38,13 @@ class StaffRequest extends FormRequest
                 'password' => 'required|min:8',
                 'confirmation_password' => 'nullable',
                 'new_password' => 'nullable',
-                'current_password' => 'nullable'
+                // 'current_password' => 'nullable'
             ];
         } else {
             $rules += [
                 'foto' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
                 'password' => 'nullable',
-                'current_password' => 'min:8|nullable',
+                // 'current_password' => 'min:8|nullable',
                 'new_password' => 'min:8|same:confirmation_password|nullable',
                 'confirmation_password' => 'min:8|same:new_password|nullable',
             ];
