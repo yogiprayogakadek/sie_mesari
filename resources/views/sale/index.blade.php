@@ -172,6 +172,17 @@
                                 <td class="text-start">Total Bayar</td>
                                 <td class="text-end total-price"></td>
                             </tr>
+                            <tr>
+                                <td class="text-start">Tunai:</td>
+                                <td>
+                                    <input type="text" class="form-control text-end" name="tunai" aria-label="tunai"
+                                            placeholder="masukkan jumlah uang tunai" value="0" id="tunai">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="text-start">Kembalian:</td>
+                                <td style=" text-align: right" id="kembalian"></td>
+                            </tr>
                         </tbody>
                     </table>
                 </div>

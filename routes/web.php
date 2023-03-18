@@ -19,6 +19,8 @@ Route::namespace('Main')->middleware('auth')->group(function() {
     Route::prefix('/dashboard')->name('dashboard.')->group(function() {
         Route::get('/', 'DashboardController@index')->name('index');
         Route::post('/chart', 'DashboardController@chart')->name('chart');
+        Route::post('/chart-terlaris', 'DashboardController@chartTerlaris')->name('chart.terlaris');
+        Route::post('/chart-pendapatan', 'DashboardController@chartPendapatan')->name('chart.pendapatan');
     });
 
     Route::prefix('/category')->name('category.')->group(function() {
@@ -79,6 +81,7 @@ Route::namespace('Main')->middleware('auth')->group(function() {
         Route::post('/checkout', 'CartController@checkout')->name('checkout');
         Route::get('/remove/{id}', 'CartController@remove')->name('remove');
         Route::get('/check-cart', 'CartController@check')->name('check');
+        Route::get('/faktur/{penjualan_id}', 'CartController@faktur')->name('faktur');
     });
 });
 

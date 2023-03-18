@@ -18,6 +18,9 @@
     <link href="{{asset('assets/css/switcher.css')}}" rel="stylesheet">
     <link href="{{asset('assets/css/demo.css')}}" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
     @stack('css')
 
 </head>

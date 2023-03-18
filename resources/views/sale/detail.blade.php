@@ -44,6 +44,25 @@
 @push('script')
 <script src="{{asset('functions/main.js')}}"></script>
 <script>
+    $('body').on('click', '.btn-detail', function() {
+        let sale_id = $(this).data('id');
+        $('#modalDetail').modal('show');
+
+        $('#tableDetail tbody').empty();
+        $.get("/sale/find-by-id/"+sale_id, function (data) {
+            $.each(data.detail, function (index, value) { 
+                let tr_list = '<tr>' +
+                                '<td>' + value.no + '</td>' +
+                                '<td>' + value.product_name + '</td>' +
+                                '<td>' + value.product_price + '</td>' +
+                                '<td>' + value.quantity + '</td>' +
+                                '<td>' + value.subtotal + '</td>' +
+                            '</tr>';
+                
+                $('#tableDetail tbody').append(tr_list);
+            });
+        });
+    });
     function getData() {
         $.ajax({
             type: "get",
@@ -64,6 +83,7 @@
             url: "/sale/detail/filter/"+start_date+"/"+end_date,
             dataType: "json",
             success: function (response) {
+                $('body #tableDetail tbody').html('')
                 $(".render").html(response.data);
                 $('#start_date').val(start_date);
                 $('#end_date').val(end_date);

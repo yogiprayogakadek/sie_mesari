@@ -29,6 +29,11 @@
     {
         return \Cart::session(auth()->user()->id)->clear();
     }
+    
+    function rupiah($jumlah)
+    {
+        return number_format($jumlah, 0, '.', '.');
+    }
 
     function subTotal()
     {
@@ -44,7 +49,8 @@
 
     function generateTransactionCode()
     {
-        return "TRANSID-" . strtoupper(uniqid());
+        // return "TRANSID-" . strtoupper(uniqid());
+        return "TRANSID-" . bin2hex(random_bytes(4));
     }
 
     function menu()

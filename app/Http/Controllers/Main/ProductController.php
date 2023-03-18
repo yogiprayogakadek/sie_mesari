@@ -48,7 +48,7 @@ class ProductController extends Controller
                 'name' => $request->name,
                 'category_id' => $request->category,
                 'price' => preg_replace('/[^0-9]/', '', $request->price),
-                'status' => $request->status
+                // 'status' => $request->status
             ];
 
             if($request->hasFile('image')) {

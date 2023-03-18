@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Main;
 
 use App\Http\Controllers\Controller;
+use App\Models\Sale;
+use DateTime;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -17,12 +19,15 @@ class DashboardController extends Controller
     {
         $chart = array();
         if($request->filter == 'product') {
+            $start_date = DateTime::createFromFormat('d-m-Y', $request->start_date);
+            $end_date = DateTime::createFromFormat('d-m-Y', $request->end_date);
             $data = DB::table('products')
                     ->select('products.id', 'products.name', DB::raw('SUM(sale_details.quantity) as quantity'))
                     ->leftJoin('sale_details', 'products.id', '=', 'sale_details.product_id')
                     ->leftJoin('sales', 'sale_details.sale_id', '=', 'sales.id')
-                    ->whereMonth('sales.sale_date', $request->bulan)
-                    ->whereYear('sales.sale_date', $request->tahun)
+                    ->whereBetween('sales.sale_date', [$start_date->format('Y-m-d'), $end_date->format('Y-m-d')])
+                    // ->whereMonth('sales.sale_date', $request->bulan)
+                    // ->whereYear('sales.sale_date', $request->tahun)
                     ->groupBy('products.id')
                     ->get();
         }
@@ -55,8 +60,7 @@ class DashboardController extends Controller
 
         $view = [
             'data' => view('dashboard.chart.index')->with([
-                'bulan' => bulan()[$request->bulan-1],
-                'tahun' => $request->tahun,
+                'tanggal' => $start_date->format('Y-m-d') . ' s/d ' . $end_date->format('Y-m-d'),
                 'chart' => $chart,
                 'totalData' => count($data),
                 'tertinggiProduk' => str_replace(',', ', ', str_replace(['["', '"]', '"'], '', json_encode($tertinggiProduk))),
@@ -68,6 +72,84 @@ class DashboardController extends Controller
                 'terendah' => str_replace(',', ', ', str_replace(['["', '"]', '"'], '', json_encode($terendah)))
             ])->render()
         ];
+
+        return response()->json($view);
+    }
+
+    public function chartTerlaris(Request $request)
+    {
+        // TERLARIS
+        $start_date = DateTime::createFromFormat('d-m-Y', $request->start_date);
+        $end_date = DateTime::createFromFormat('d-m-Y', $request->end_date);
+
+        $data = DB::table('products')
+            ->select('products.id', 'products.name', DB::raw('SUM(sale_details.quantity) as kuantitas'))
+            ->leftJoin('sale_details', 'products.id', '=', 'sale_details.product_id')
+            ->leftJoin('sales', 'sale_details.sale_id', '=', 'sales.id')
+            ->whereBetween('sales.sale_date', [$start_date->format('Y-m-d'), $end_date->format('Y-m-d')])
+            ->groupBy('products.id')
+            ->get()->take(5)->toArray();
+
+        usort($data, function($a, $b) {
+            return $b->kuantitas - $a->kuantitas;
+        });
+
+        $terlaris = [];
+        $produk = "";
+        $kuantitas = "";
+        foreach($data as $i => $v) {
+            $terlaris[] = [
+                'nama_produk' => $v->name,
+                'kuantitas' => $v->kuantitas,
+            ];
+            $produk .= $v->name . ', ';
+            $kuantitas .= $v->kuantitas . ', ';
+        }
+
+        $view = [
+            'data' => view('dashboard.chart.terlaris')->with([
+                'terlaris' => $terlaris,
+                'produk' => substr_replace(rtrim($produk, ', '), ' dan', strrpos(rtrim($produk, ', '), ','), 1),
+                'kuantitas' => substr_replace(rtrim($kuantitas, ', '), ' dan', strrpos(rtrim($kuantitas, ', '), ','), 1),
+                'tanggal' => $start_date->format('Y-m-d') . ' s/d ' . $end_date->format('Y-m-d'),
+            ])->render()
+        ];
+
+        // dd($terlaris);
+
+        return response()->json($view);
+    }
+
+    public function chartPendapatan(Request $request)
+    {
+        // TERLARIS
+        $start_date = DateTime::createFromFormat('d-m-Y', $request->start_date);
+        $end_date = DateTime::createFromFormat('d-m-Y', $request->end_date);
+
+        $data = Sale::groupBy('sale_date')
+                    ->select('sale_date')
+                    ->selectRaw('sum(total) as total')
+                    ->whereBetween('sale_date', [$start_date, $end_date])
+                    ->get();
+
+        $pendapatan = [];
+        foreach($data as $i => $v) {
+            $pendapatan[] = [
+                'tanggal' => date_format(date_create($v->sale_date), 'd-m-Y'),
+                'total' => $v->total,
+            ];
+        }
+
+        // dd(current($pendapatan)['tanggal']);
+
+        $view = [
+            'data' => view('dashboard.chart.pendapatan')->with([
+                'pendapatan' => $pendapatan,
+                'tertinggi' => current($pendapatan),
+                'terendah' => end($pendapatan),
+            ])->render()
+        ];
+
 
         return response()->json($view);
     }

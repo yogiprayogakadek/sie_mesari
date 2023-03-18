@@ -58,6 +58,31 @@ function priceCut()
     $('.price-cut').text(convertToRupiah(total));
 }
 
+function toRupiah(number) {
+    reverse = number.toString().split('').reverse().join(''),
+        ribuan = reverse.match(/\d{1,3}/g);
+    ribuan = ribuan.join('.').split('').reverse().join('');
+
+    return "Rp " + ribuan;
+}
+
+function formatRupiah(angka, prefix){
+    var number_string = angka.replace(/[^,\d]/g, '').toString(),
+    split   		= number_string.split(','),
+    sisa     		= split[0].length % 3,
+    rupiah     		= split[0].substr(0, sisa),
+    ribuan     		= split[0].substr(sisa).match(/\d{3}/gi);
+
+    // tambahkan titik jika yang di input sudah menjadi angka ribuan
+    if(ribuan){
+        separator = sisa ? '.' : '';
+        rupiah += separator + ribuan.join('.');
+    }
+
+    rupiah = split[1] != undefined ? rupiah + ',' + split[1] : rupiah;
+    return prefix == undefined ? rupiah : (rupiah ? 'Rp ' + rupiah : '');
+}
+
 $(document).ready(function () {
     $('#tableCart td').length > 1 ? $('.block-hide').prop('hidden', false) : $('.block-hide').prop('hidden', true);
 
@@ -215,6 +240,10 @@ $(document).ready(function () {
                     $('#tableTotalCart').find('.sub-total').text(result.subtotal)
                     totalPrice();
                     priceCut();
+
+                    $('#tunai').val('')
+                    $('#kembalian').empty();
+                    $('.btn-checkout').prop('disabled', true);
                 }
             }
         });
@@ -245,6 +274,10 @@ $(document).ready(function () {
                     $('#tableTotalCart').find('.sub-total').text(result.subtotal)
                     totalPrice();
                     priceCut();
+
+                    $('#tunai').val('')
+                    $('#kembalian').empty();
+                    $('.btn-checkout').prop('disabled', true);
                 }
             }
         });
@@ -280,6 +313,10 @@ $(document).ready(function () {
         $('.total-discount').text(discount + '%');
         totalPrice();
         priceCut();
+
+        $('#tunai').val('')
+        $('#kembalian').empty();
+        $('.btn-checkout').prop('disabled', true);
     });
 
     $('body').on('blur', '.qty', function () {
@@ -312,6 +349,24 @@ $(document).ready(function () {
         });
     });
 
+    $('body').on('keyup', '#tunai', function () {
+        $('#tunai').val(formatRupiah($('#tunai').val(), 'Rp. '));
+    })
+
+    $('.btn-checkout').prop('disabled', true);
+    $('body').on('change', '#tunai', function () {
+        let totalPrice = parseInt($('body .total-price').text().replace(/[^0-9]/g, ''));
+        let tunai = parseInt($('body #tunai').val().replace(/[^0-9]/g, ''));
+        let total = tunai - totalPrice;
+        if (tunai >= totalPrice && tunai != 0) {
+            $('.btn-checkout').prop('disabled', false);
+            $('#kembalian').empty().append('<span>' + toRupiah(total) + '</span>');
+        } else {
+            $('#kembalian').empty();
+            $('.btn-checkout').prop('disabled', true);
+        }
+    });
+
     $('body').on('click', '.btn-remove-discount', function() {
         $(function() {
             $.session.remove("discount");
@@ -339,6 +394,8 @@ $(document).ready(function () {
             cancelButtonText: 'Batal',
         }).then((result) => {
             if (result.value) {
+                let tunai = $('body #tunai').val().replace(/[^0-9]/g, '');
+                let kembalian = $('body #kembalian').text().replace(/[^0-9]/g, '');
                 var formData = new FormData();
                 formData.append('_token', $('meta[name="csrf-token"]').attr('content'));
                 formData.append('total', $('body .total-price').text().replace(/[^0-9]/g,''));
@@ -357,7 +414,20 @@ $(document).ready(function () {
                             result.status
                         )
                         if (result.status == 'success') {
-                            location.reload();
+                            let data = result.penjualan_id+'&'+tunai+'&'+kembalian
+                            $.ajax({
+                                type: "GET",
+                                url: "/cart/faktur/" + data,
+                                dataType: "json",
+                                success: function (response) {
+                                    $(function () {
+                                        $.session.remove("discount");
+                                    });
+                                }
+                            });
+                            setTimeout(() => {
+                                location.reload();
+                            }, 2000)
                         }
                     },
                     error: function() {
