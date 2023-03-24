@@ -52,9 +52,8 @@
                             </div>
                             <div class="form-group">
                                 <input type="date" name="start_date" id="start_date" class="form-control start_date" placeholder="tanggal awal">
-                                -
                             </div>
-                            <div class="form-group">
+                            <div class="form-group" style="margin-left: 10px">
                                 <input type="date" name="end_date" id="end_date" class="form-control end_date" placeholder="tanggal akhir">
                             </div>
                             <div class="form-group" style="margin-left: 4px">

@@ -60,14 +60,32 @@
                                     @foreach ($data->detail as $detail)
                                     <tr>
                                         <td>{{$detail->product->name}}</td>
-                                        <td>{{convertToRupiah($detail->product->price)}}</td>
+                                        <td class="text-end">{{convertToRupiah($detail->product->price)}}</td>
                                     </tr>
                                     @endforeach
                                 </table>
                             </td>
-                            <td class="align-middle">{{convertToRupiah($data->total)}}</td>
+                            <td class="text-end">{{convertToRupiah($data->total)}}</td>
                         </tr>
-                        @endforeach
+                    @endforeach
+                    <tr>
+                        <td colspan="7" class="text-end">Total Pendapatan Kotor (sebelum diskon)</td>
+                        <td class="text-end">
+                            <b>{{$bruto}}</b>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="7" class="text-end">Total diskon</td>
+                        <td class="text-end">
+                            <b>{{$discount}}</b>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="7" class="text-end">Total Pendapatan Bersih (setelah diskon)</td>
+                        <td class="text-end">
+                            <b>{{$netto}}</b>
+                        </td>
+                    </tr>
                 </table>
             </div>
         </div>

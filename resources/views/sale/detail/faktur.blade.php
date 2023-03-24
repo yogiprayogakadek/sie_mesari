@@ -227,6 +227,16 @@
                     <tr class="tabletitle">
                         <td></td>
                         <td class="Rate">
+                            <h2>Total sebelum diskon</h2>
+                        </td>
+                        <td class="payment">
+                            <h2>{{rupiah($penjualan->total)}},-</h2>
+                        </td>
+                    </tr>
+
+                    <tr class="tabletitle">
+                        <td></td>
+                        <td class="Rate">
                             <h2>Diskon ({{$penjualan->discount}} %)</h2>
                         </td>
                         <td class="payment">
@@ -247,7 +257,7 @@
                     <tr class="tabletitle">
                         <td></td>
                         <td class="Rate">
-                            <h2>Total</h2>
+                            <h2>Total sesudah diskon</h2>
                         </td>
                         <td class="payment">
                             <h2>{{rupiah($penjualan->total - ($penjualan->total * ($penjualan->discount/100)))}},-</h2>

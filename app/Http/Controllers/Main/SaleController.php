@@ -8,6 +8,7 @@ use App\Models\Product;
 use App\Models\Sale;
 use App\Models\SaleDetail;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class SaleController extends Controller
 {
@@ -59,8 +60,20 @@ class SaleController extends Controller
     public function print($start, $end)
     {
         $data = Sale::with('detail.product', 'member', 'staff')->whereBetween('sale_date', [$start, $end])->get();
+        $netto = Sale::whereBetween('sale_date', [$start, $end])
+                        ->select(DB::raw("SUM(total - (total * (discount/100))) as total"))->get();
+                        
+        $bruto = Sale::whereBetween('sale_date', [$start, $end])->sum('total');
+
+        $discount = Sale::whereBetween('sale_date', [$start, $end])
+                        ->select(DB::raw("SUM((total * (discount/100))) as total"))->get();
         $view = [
-            'data' => view('sale.detail.print', compact('data'))->render()
+            'data' => view('sale.detail.print')->with([
+                'data' => $data,
+                'netto' => convertToRupiah($netto[0]->total),
+                'bruto' => convertToRupiah($bruto),
+                'discount' => convertToRupiah($discount[0]->total)
+            ])->render()
         ];
 
         return response()->json($view);
